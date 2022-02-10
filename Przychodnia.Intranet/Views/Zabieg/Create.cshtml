@@ -1,0 +1,103 @@
+﻿@model Przychodnia.Intranet.ViewModel.ZabiegViewModel
+
+@{
+    ViewData["Title"] = "Dodaj zabieg";
+}
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <form enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nazwa" class="control-label "></label>
+                        <input asp-for="Nazwa" class="form-control" />
+                        <span asp-validation-for="Nazwa" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="CzasTrwaniaMinuty" class="control-label "></label>
+                        <input asp-for="CzasTrwaniaMinuty" class="form-control" /> 
+                        <span asp-validation-for="CzasTrwaniaMinuty" class="text-danger"></span>
+                    </div>
+                </div>
+                    <div class="col-md-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-label" type="checkbox" id="flexSwitchCheckDefault" asp-for="Aktywny" /> @Html.DisplayNameFor(model => model.Aktywny)
+                            <label class="form-check-input" for="flexSwitchCheckDefault" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Foto" class="control-label "></label>
+                            <div class="custom-file">
+                                <input asp-for="Foto" class="custom-file-input" id="customFileImage" accept="image/*" multiple />
+                                <label class="custom-file-label" for="customFileImage">Wybierz pliki..</label>
+                            </div>
+                            <span asp-validation-for="Foto" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Przygotowania" class="control-label "></label>
+                            @Html.TextAreaFor(model => model.Przygotowania)
+                            <span asp-validation-for="Przygotowania" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Przeciwwskazania" class="control-label "></label>
+                            @Html.TextAreaFor(model => model.Przeciwwskazania)
+                            <span asp-validation-for="Przeciwwskazania" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label asp-for="Opis" class="control-label"></label>
+                        @Html.TextAreaFor(model => model.Opis)
+                        <span asp-validation-for="Opis" class="text-danger"></span>
+                    </div>
+                </div>
+</form>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var input = document.getElementsByClassName("custom-file-input")[0];
+            var label = document.getElementsByClassName("custom-file-label")[0];
+            input.onchange = (event) => {
+                label.innerHTML = event.target.files[0].name;
+            }
+
+        });
+    </script>
+
+    <script>
+        tinymce.init({
+                        selector: 'textarea',
+                        menubar:false,
+                        statusbar: false,
+                        language: 'pl'
+                      });
+    </script>
+
+}

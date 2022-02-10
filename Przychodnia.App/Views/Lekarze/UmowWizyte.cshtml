@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Html
+@model Przychodnia.Data.Entities.Uzytkownik
+
+@{
+    ViewData["Title"] = "Umów wizyte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    public static HtmlString GetDayName(int weekDayNumber)
+    {
+        switch (weekDayNumber)
+        {
+            case 0:
+                return new HtmlString("Niedziela");
+            case 1:
+                return new HtmlString("Poniedziałek");
+            case 2:
+                return new HtmlString("Wtorek");
+            case 3:
+                return new HtmlString("Środa");
+            case 4:
+                return new HtmlString("Czwartek");
+            case 5:
+                return new HtmlString("Piątek");
+            case 6:
+                return new HtmlString("Sobota");
+        }
+        return null;
+    }
+    public static HtmlString WithZeroPadding(int number)
+    {
+        if (number > 9)
+        {
+            return new HtmlString(number.ToString());
+        }
+        return new HtmlString("0" + number.ToString());
+    }
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Umów wizytę</h2>
+            <hr class="underline" />
+        </div>
+        <div class="my-5">
+        <div class="card">
+            <h5 class="card-header">Umów wizytę</h5>
+            <div class="card-body">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0" style="width: 30%;">Lekarz</th>
+                            <th class="border-top-0" style="width: 70%;">Kiedy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>
+                                    @ViewBag.Lekarz.TytulNaukowy.Nazwa @ViewBag.Lekarz.Imie @ViewBag.Lekarz.Nazwisko
+                                </td>
+                                <td>
+                                    <div class="d-flex">
+                                        @ViewBag.DateTime.ToString("dd/MM/yyyy H:mm")
+
+                                        <form asp-action="ProceedUmowWizyte"
+                                              asp-route-lekarzId="@ViewBag.Lekarz.Id"
+                                              asp-route-dateTime="@ViewBag.DateTime.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffff")" class="d-inline-block ml-auto">
+                                            <button type="submit" class="btn btn-primary">Zapisz</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

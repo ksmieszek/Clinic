@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Poradnia>
+
+@foreach (var item in Model.TakeLast(4))
+{
+<div class="my-5">
+    <div class="icon d-flex justify-content-center align-items-center">
+        <span class=""></span>
+    </div>
+    <div class="media-body p-2 mt-3">
+        <h3 class="heading">@item.Nazwa</h3>
+        <p> @item.Opis</p>
+    </div>
+</div>
+}

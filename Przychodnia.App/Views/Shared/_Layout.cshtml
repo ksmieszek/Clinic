@@ -1,0 +1,234 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Przychodnia.App.Static 
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+@*@inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"] - Przychodnia.App</title>
+    @Html.Partial("_Favicons")
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/open-iconic-bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/animate.css">
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/owl.carousel.min.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/owl.theme.default.min.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/magnific-popup.css">
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/aos.css">
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/ionicons.min.css">
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/bootstrap-datepicker.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/jquery.timepicker.css">
+
+
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/flaticon.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/icomoon.css">
+    <link type="text/css" rel="stylesheet" href="~/lib/layout/css/style.css" media="screen,projection">
+    @*<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />*@
+
+    <script src="https://kit.fontawesome.com/b9892634f1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Przychodnia<span>Online</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item dropdown">
+                        @await Html.PartialAsync("Odnosniki", (List<Przychodnia.Data.Entities.StronaOnas>)(IEnumerable<Przychodnia.Data.Entities.StronaOnas>)ViewBag.StronaOnas)
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-controller="Aktualnosci" asp-action="Index">Aktualności</a></li>
+                            <li><a class="dropdown-item" asp-controller="Lekarze" asp-action="Index">Lekarze</a></li>
+                            <li><a class="dropdown-item" asp-controller="Kontakt" asp-action="Index">Kontakt</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link">Usługi</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-controller="Zabieg" asp-action="Index">Zabieg</a></li>
+                            <li><a class="dropdown-item" asp-controller="Lekarze" asp-action="Index">Umów wizytę</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" asp-controller="Poradnie" asp-action="Index">Poradnie</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link">Cennik</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-controller="CennikZabieg" asp-action="Index">Cennik zabiegów</a></li>
+                            <li><a class="dropdown-item" asp-controller="CennikPoradnia" asp-action="Index">Cennik poradni</a></li>
+                            <li><a class="dropdown-item" asp-controller="CennikLekarz" asp-action="Index">Cennik lekarzy</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link">Inne</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="dropdown-item"> @await Html.PartialAsync("OdnosnikiStrona", JsonConvert.DeserializeObject<IEnumerable<Przychodnia.Data.Entities.Strona>>(HttpContextAccessor.HttpContext.Session.GetString("ModelStrona")))</li>
+                        </ul>
+                    </li>
+
+                    @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated is true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link"><i class="far fa-user-circle">&nbsp; Konto</i></a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Uzytkownik" asp-action="Edycja">Edycja</a></li>
+                                <li><a class="dropdown-item" asp-controller="Uzytkownik" asp-action="MojeWizyty">Moje wizyty</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Uzytkownik" asp-action="Logout">Wyloguj @*(@HttpContextAccessor.HttpContext.User.Identity.Name)*@</a>
+                        </li>
+                    }
+                    @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated is false)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Uzytkownik" asp-action="Rejestracja">Rejestracja</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Uzytkownik" asp-action="Login">Zaloguj</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- END nav -->
+    <div class="container hero-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <section class="ftco-section-parallax">
+        <div class="parallax-img d-flex align-items-center">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                        <h2>Dołącz do Newslettera</h2>
+
+                        <div class="row d-flex justify-content-center mt-5">
+                            <div class="col-md-8">
+                                <form class="subscribe-form" action="https://app.getresponse.com/add_subscriber.html" accept-charset="utf-8" method="post">
+                                    <div class="form-group d-flex">
+                                        <!-- Pole email (wymagane) -->
+                                        <input type="text" name="email" class="form-control" placeholder="Wprowadź e-mail"><br />
+                                        <!-- Token listy -->
+                                        <!-- Pobierz token na: https://app.getresponse.com/campaign_list.html -->
+                                        <input type="hidden" name="campaign_token" value="rXcYi" />
+                                        <input type="hidden" name="thankyou_url" value="http://sebastianwypior-001-site1.htempurl.com/ThankYouPage" />
+                                        <!-- Dodaj subskrybenta do cyklu follow up z określonego dnia (opcjonalnie) -->
+                                        <input type="hidden" name="start_day" value="0" />
+                                        <!-- Przycisk zapisu -->
+                                        <input type="submit" class="submit px-3" value="Wyślij" />
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex color-white">
+                            <p class="color-white">Klikając w przycisk Wyślij, zgadzasz się z  <a class="color-white" asp-controller="Regulamin" asp-action="Index">Regulaminem</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+        @await Component.InvokeAsync("Parametry") 
+    </footer>
+
+
+
+        <!-- loader -->
+        <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalRequest" tabindex="-1" role="dialog" aria-labelledby="modalRequestLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRequestLabel">Make an Appointment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#">
+                            <div class="form-group">
+                                <!-- <label for="appointment_name" class="text-black">Full Name</label> -->
+                                <input type="text" class="form-control" id="appointment_name" placeholder="Full Name">
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="appointment_email" class="text-black">Email</label> -->
+                                <input type="text" class="form-control" id="appointment_email" placeholder="Email">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!-- <label for="appointment_date" class="text-black">Date</label> -->
+                                        <input type="text" class="form-control appointment_date" placeholder="Date">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!-- <label for="appointment_time" class="text-black">Time</label> -->
+                                        <input type="text" class="form-control appointment_time" placeholder="Time">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <!-- <label for="appointment_message" class="text-black">Message</label> -->
+                                <textarea name="" id="appointment_message" class="form-control" cols="30" rows="10" placeholder="Message"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Make an Appointment" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <script src="~/lib/layout/js/jquery.min.js"></script>
+        <script src="~/lib/layout/js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="~/lib/layout/js/popper.min.js"></script>
+        <script src="~/lib/layout/js/bootstrap.min.js"></script>
+        <script src="~/lib/layout/js/jquery.easing.1.3.js"></script>
+        <script src="~/lib/layout/js/jquery.waypoints.min.js"></script>
+        <script src="~/lib/layout/js/jquery.stellar.min.js"></script>
+        <script src="~/lib/layout/js/owl.carousel.min.js"></script>
+        <script src="~/lib/layout/js/jquery.magnific-popup.min.js"></script>
+        <script src="~/lib/layout/js/aos.js"></script>
+        <script src="~/lib/layout/js/jquery.animateNumber.min.js"></script>
+        <script src="~/lib/layout/js/bootstrap-datepicker.js"></script>
+        <script src="~/lib/layout/js/jquery.timepicker.min.js"></script>
+        <script src="~/lib/layout/js/scrollax.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+        <script src="~/lib/layout/js/google-map.js"></script>
+        <script src="~/lib/layout/js/main.js"></script>
+        @RenderSection("Scripts", required: false)
+
+</body>
+</html>

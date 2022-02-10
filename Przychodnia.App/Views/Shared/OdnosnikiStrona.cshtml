@@ -1,0 +1,41 @@
+﻿@model List<Przychodnia.Data.Entities.Strona>
+
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+
+
+@foreach (var item in Model)
+{
+    <li class="dropdown-item">
+        @if (item.CzyWOknie && item.CzyIkona)
+        {
+            if (item.CzyIkona)
+            {
+                <i class="@item.Ikona?.Nazwa" style="color:black"></i>
+            }
+            @Html.ActionLink(item.LinkTytul, "Index", "Strona", new { id = item.IdStrony }, new { target = "_self", style = "color: black" })
+
+        }
+        @if (!item.CzyWOknie && item.CzyIkona)
+        {
+            if (item.CzyIkona)
+            {
+                <i class="@item.Ikona?.Nazwa" style="color:black"></i>
+            }
+            @Html.ActionLink(item.LinkTytul, "Index", "Strona", new { id = item.IdStrony }, new { target = "_blank", style = "color: black" })
+        }
+
+        @if (item.CzyWOknie && !item.CzyIkona)
+            @Html.ActionLink(item.LinkTytul, "Index", "Strona", new { id = item.IdStrony }, new { target = "_self", style = "color: black" })
+        @if (!item.CzyWOknie && !item.CzyIkona)
+            @Html.ActionLink(item.LinkTytul, "Index", "Strona", new { id = item.IdStrony }, new { target = "_blank", style = "color: black" })
+    </li>
+}
+
+
+
+
+
+
+
+
+

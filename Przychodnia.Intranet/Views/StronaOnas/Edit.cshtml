@@ -1,0 +1,92 @@
+﻿@model Przychodnia.Intranet.ViewModel.StronaOnasViewModel
+
+@{
+    ViewData["Title"] = "Edytuj wpis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-lg-8 offset-lg-2">
+    <h4 class="page-title">Edycja o nas </h4>
+</div>
+<hr />
+<form asp-action="Edit" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Tytul" class="control-label"></label>
+                        <input asp-for="Tytul" class="form-control" />
+                        <span asp-validation-for="Tytul" class="text-danger"></span>
+                        <label asp-for="Pozycja" class="control-label"></label>
+                        <input asp-for="Pozycja" class="form-control" />
+                        <span asp-validation-for="Pozycja" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Foto" class="control-label ">Zdjęcie</label>
+                        <div class="custom-file">
+                            <input asp-for="Foto" class="custom-file-input" id="customFileImage" accept="image/*" multiple>
+                            <label class="custom-file-label" for="customFileImage">Wybierz plik</label>
+                        </div>
+                        <span asp-validation-for="Foto" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="actual_photo">Aktualne zdjęcie:</label>
+                    <div id="actual_photo">
+                        <img class="img-responsive rounded float-left" height="400" src="@Model.FotoUrl"/>
+                    </div>
+                </div>
+            </div>
+            @*   </div>*@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Tresc" class="control-label">Treść</label>
+                        @Html.TextAreaFor(model => model.Tresc)
+                        <span asp-validation-for="Tresc" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var input = document.getElementsByClassName("custom-file-input")[0];
+            var label = document.getElementsByClassName("custom-file-label")[0];
+            input.onchange = (event) => {
+                label.innerHTML = event.target.files[0].name;
+            }
+
+        });
+    </script>
+     <script>
+        tinymce.init({
+                        selector: 'textarea',
+                        menubar:false,
+                        statusbar: false,
+                        language: 'pl'
+                      });
+    </script>
+}

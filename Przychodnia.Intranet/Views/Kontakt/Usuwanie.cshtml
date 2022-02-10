@@ -1,0 +1,80 @@
+﻿@model Przychodnia.Data.Entities.Kontakt
+
+@{
+    ViewData["Title"] = "Usuwanie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h1>Usuwanie</h1>
+
+    <h3>Czy napewno?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Uzytkownik)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Uzytkownik.Imie)
+                @Html.DisplayFor(model => model.Uzytkownik.Nazwisko)
+                @Html.DisplayFor(model => model.Uzytkownik.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.Adres.Miejscowosc)
+                @Html.DisplayFor(model => model.Adres.KodPocztowy)
+                @Html.DisplayFor(model => model.Adres.Ulica)
+                @Html.DisplayFor(model => model.Adres.NumerDomu)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Adres.KodPocztowy)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Telefon)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Telefon)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Opis)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Opis)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Aktywny)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Aktywny)
+            </dd>
+        </dl>
+
+        <form asp-action="Usuwanie">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Usuń" class="btn btn-danger" /> |
+            <a asp-action="Index">Powrót</a>
+        </form>
+    </div>*@
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Czy chcesz usunąć?</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Usuwanie">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                        </button> <span></span>
+                        <a class="btn btn-primary" asp-action="Index"><i class="fas fa-ban"></i> <span></span></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

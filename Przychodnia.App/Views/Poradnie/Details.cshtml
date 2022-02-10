@@ -1,0 +1,64 @@
+﻿@model Przychodnia.Data.Entities.Poradnia
+
+@{
+    ViewData["Title"] = "Informacje o poradni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Informacje o poradni</h2>
+            <hr class="underline" />
+        </div>
+        <div class="row d-md-flex my-5">
+            <div class="col-md-6" style="margin-bottom: 5px; }">
+                <div class="card">
+                    <h5 class="card-header">Informacje</h5>
+                    <div class="card-body">
+                        <h5 class="card-title"> @Html.DisplayFor(model => model.Nazwa)</h5>
+                        <hr />
+                        <p class="card-text">
+                            @Html.DisplayNameFor(model => model.Opis):
+                            @Html.Raw(@Model.Opis)
+                        </p>
+
+                        <a asp-action="Index" class="btn btn-danger dropright">Powrót</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <div style="height:100%">
+                    <img class="card-img-top m-auto" src="@Html.DisplayFor(model => model.FotoUrl)" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="my-5 ml-4">
+                <div class="card">
+                    <h5 class="card-header">Lekarze w poradni:</h5>
+                    <div class="card-body">
+                        @foreach (var x in Model.Lekarze)
+                        {
+                            <div class="row col-md-12">
+                                <div class="list-group col-md-10">
+                                    <a asp-controller="Lekarze" asp-action="Szczegoly" asp-route-id="@x.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">
+                                                @Html.DisplayFor(modelItem => x.Imie) @Html.DisplayFor(modelItem => x.Nazwisko)
+                                            </h5>
+                                        </div>
+                                        <small>Specjalizacja: @Html.DisplayFor(modelItem => x.Specjalizacje.Nazwa)</small>
+                                    </a>
+                                </div>
+                                <div class="list-group col-md-2">
+                                    <img class="rounded-circle" style="width:6em" src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                                         alt="...">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

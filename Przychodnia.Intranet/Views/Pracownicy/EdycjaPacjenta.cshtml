@@ -1,0 +1,65 @@
+﻿@model Przychodnia.Data.Entities.Uzytkownik
+
+@{
+    ViewData["Title"] = "Edytuj pacjenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="EdycjaPacjenta">
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="form-group">
+                <a href='javascript:history.go(-1)' class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mb-3">Dodaj jako lekarza</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Imie" class="control-label">Imię</label>
+                        <input asp-for="Imie" class="form-control" required />
+                        <span asp-validation-for="Imie" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nazwisko" class="control-label "></label>
+                        <input asp-for="Nazwisko" class="form-control" required />
+                        <span asp-validation-for="Nazwisko" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Pesel" class="control-label"></label>
+                        <input asp-for="Pesel" class="form-control" required />
+                        <span asp-validation-for="Pesel" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Telefon" class="control-label"></label>
+                        <input asp-for="Telefon" class="form-control" required />
+                        <span asp-validation-for="Telefon" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span class="text-danger">@ViewBag.DuplicatedEmailError</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

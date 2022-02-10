@@ -1,0 +1,46 @@
+﻿@model Przychodnia.Data.Entities.Poradnia
+
+@{
+    ViewData["Title"] = "Szczegóły";
+}
+
+
+<div>
+    <h4>Poradnia</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nazwa)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nazwa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.Raw(Model.Opis)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FotoUrl)
+        </dt>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="actual_photo">Aktualne zdjęcie:</label>
+                <div id="actual_photo">
+                    <img class="img-responsive rounded float-left" height="400" src="@Model.FotoUrl" />
+                </div>
+            </div>
+        </div>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Aktywna)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Aktywna)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a> |
+    <a asp-action="Index">Powrót</a>
+</div>

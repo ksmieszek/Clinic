@@ -1,0 +1,211 @@
+﻿@using Microsoft.AspNetCore.Html
+@model Przychodnia.Data.Entities.Uzytkownik
+
+@{
+    ViewData["Title"] = "Szczegoly";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int DayisInMonth = DateTime.DaysInMonth(ViewBag.Year, ViewBag.Month);
+}
+
+@functions {
+    public static HtmlString GetMonthName(int monthNumber)
+    {
+        switch (monthNumber)
+        {
+            case 1:
+                return new HtmlString("Styczeń");
+            case 2:
+                return new HtmlString("Luty");
+            case 3:
+                return new HtmlString("Marzec");
+            case 4:
+                return new HtmlString("Kwiecień");
+            case 5:
+                return new HtmlString("Maj");
+            case 6:
+                return new HtmlString("Czerwiec");
+            case 7:
+                return new HtmlString("Lipiec");
+            case 8:
+                return new HtmlString("Sierpień");
+            case 9:
+                return new HtmlString("Wrzesień");
+            case 10:
+                return new HtmlString("Październik");
+            case 11:
+                return new HtmlString("Listopad");
+            case 12:
+                return new HtmlString("Grudzień");
+        }
+        return null;
+    }
+    public static HtmlString GetDayName(int weekDayNumber)
+    {
+        switch (weekDayNumber)
+        {
+            case 0:
+                return new HtmlString("Niedziela");
+            case 1:
+                return new HtmlString("Poniedziałek");
+            case 2:
+                return new HtmlString("Wtorek");
+            case 3:
+                return new HtmlString("Środa");
+            case 4:
+                return new HtmlString("Czwartek");
+            case 5:
+                return new HtmlString("Piątek");
+            case 6:
+                return new HtmlString("Sobota");
+        }
+        return null;
+    }
+    public static HtmlString WithZeroPadding(int number)
+    {
+        if (number > 9)
+        {
+            return new HtmlString(number.ToString());
+        }
+        return new HtmlString("0" + number.ToString());
+    }
+}
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Informacje o lekarzu</h2>
+            <hr class="underline" />
+        </div>
+        <div class="my-5">
+            <div class="card">
+                <h5 class="card-header">Informacje</h5>
+                <div class="card-body">
+                    <p class="card-text">Tytuł naukowy: @ViewBag.Szczegoly.TytulNaukowy.Nazwa</p>
+                    <h5 class="card-title">@Model.Imie @Model.Nazwisko</h5>
+                    <hr />
+                    <p class="card-text">Specjalizacja: @ViewBag.Specjalizacja.Specjalizacje.Nazwa</p>
+                    <p class="card-text">Telefon: @Model.Telefon</p>
+                    <p class="card-text">Adres e-mail: @Model.Email</p>
+                    <a href="@ViewBag.FromPath" class="btn btn-outline-secondary">Powrót</a>
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.Cennik.Count != 0)
+        {
+            <div class="my-5">
+                <div class="card mt-4">
+                    <h5 class="card-header">Cennik - @Model.Imie @Model.Nazwisko</h5>
+                    <div class="card-body">
+                        @foreach (var cennik in @ViewBag.Cennik)
+                        {
+                            <p class="card-text">@cennik.Nazwa - @cennik.Cena zł</p>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="my-5">
+            <div class="card mt-4">
+                <h5 class="card-header d-flex align-items-center">
+                    Harmonogram - @GetMonthName(ViewBag.Month) @ViewBag.Year
+                    @if (ViewBag.Month < 12 && ViewBag.Month > 1)
+                    {
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year, month = ViewBag.Month-1 })" class="btn btn-secondary ml-auto">&#5176;&nbsp;@GetMonthName(ViewBag.Month - 1)</a>
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year, month = ViewBag.Month+1 })" class="btn btn-secondary ml-2">@GetMonthName(ViewBag.Month + 1)&nbsp;&#5171;</a>
+                    }
+                    else if (ViewBag.Month == 12)
+                    {
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year, month = ViewBag.Month-1 })" class="btn btn-secondary ml-auto">&#5176;&nbsp;@GetMonthName(ViewBag.Month - 1)</a>
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year+1, month = 1 })" class="btn btn-secondary ml-2">@GetMonthName(1)&nbsp;&#5171;</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year-1, month = 12 })" class="btn btn-secondary ml-auto">&#5176;&nbsp;@GetMonthName(12)</a>
+                        <a href="@Url.Action("Szczegoly", new { userId = ViewBag.UserId, year = ViewBag.Year, month = ViewBag.Month+1 })" class="btn btn-secondary ml-2">@GetMonthName(ViewBag.Month + 1)&nbsp;&#5171;</a>
+                    }
+                </h5>
+                <div class="card-body">
+
+                    <style>
+                        .time-badge {
+                            display: inline-block;
+                            border: 1px solid #ccc;
+                            padding: 0.25rem;
+                            margin: 0.25rem;
+                            background: #eee;
+                            border-radius: 2rem;
+                            padding: 0.25rem 0.75rem;
+                            color: black;
+                        }
+
+                        .time-badge--taken {
+                            color: #808080;
+                            background: #f7f7f7;
+                            border-color: #e9e9e9;
+                        }
+
+                        .time-badge:not(.time-badge--taken):hover {
+                            background: #e5e5e5;
+                            cursor: pointer;
+                        }
+
+                        /*Table*/
+                        tbody th {
+                            padding-top: 1.25rem !important;
+                            padding-bottom: 1.25rem !important;
+                            width: 11rem;
+                        }
+
+                        .table__row--weekend {
+                            box-shadow: inset 5px 0 0 #e22555;
+                        }
+                    </style>
+
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0" style="width: 11rem;">Dzień</th>
+                                <th class="border-top-0">Godziny</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < DayisInMonth; i++)
+                            {
+                                var dayOfWeek = (int)new DateTime(ViewBag.Year, ViewBag.Month, i + 1).DayOfWeek;
+                                <tr class="@(dayOfWeek == 0 || dayOfWeek == 6 ? "table__row--weekend" : "")">
+                                    <th scope="row">
+                                        @(i+1)&nbsp;&nbsp;@(GetDayName(dayOfWeek))
+                                    </th>
+                                    <td>
+                                        @{
+                                            var dayHours = ((List<ScheduleForDoctorDetailView>)ViewBag.Schedules).Where((d) => d.DateTime.Day == i + 1).ToList();
+                                        }
+                                        @foreach (var dayHour in dayHours)
+                                        {
+                                            @if (dayHour.IsTaken)
+                                            {
+                                                <div class="time-badge time-badge--taken"
+                                         title="Zajęte">
+                                                    @dayHour.DateTime.Hour:@(WithZeroPadding(dayHour.DateTime.Minute))
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <a class="time-badge"
+                                       href="@Url.Action("UmowWizyte", new { lekarzId = ViewBag.UserId, dateTime = dayHour.DateTime })">
+                                                    @dayHour.DateTime.Hour:@(WithZeroPadding(dayHour.DateTime.Minute))
+                                                </a>
+                                            }
+
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.StronaOnas>
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+    <div class="container">
+        @foreach (var aktualnosc in Model)
+        {
+          <div class="my-5">
+                <div class="row d-md-flex">
+                    <div class="col-md-6");">
+                        <img class="card-img-top m-auto" src="@aktualnosc.FotoUrl" alt="Card image cap" style="width: 50%;">
+                    </div>
+                    <div class="col-md-6 ftco-animate pr-md-5 order-md-first">
+                        <div class="row">
+
+                            <div class="col-md-12 nav-link-wrap mb-5">
+                                <div class="nav ftco-animate nav-pills">
+                                    <h2 class="Onas">@Html.Raw(@aktualnosc.Tytul)</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex align-items-center">
+
+                                <div class="tab-content ftco-animate">
+                                    <div>
+                                        <div>
+                                            <p>@Html.Raw(@aktualnosc.Tresc)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+@*<link type="text/css" rel="stylesheet" href="~/css/site.css">
+
+@foreach (var item in Model.TakeLast(4))
+{
+    <div class="my-5">
+        <div class="media-body p-2 mt-3">
+            <h3 class="mb-3" style="text-align:center">@item.Tytul</h3>
+            <p> @item.Tresc</p>
+        </div>
+    </div>
+}*@

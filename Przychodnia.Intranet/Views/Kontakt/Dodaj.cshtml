@@ -1,0 +1,170 @@
+﻿@model Przychodnia.Intranet.ViewModel.KontaktViewModel
+
+@{
+    ViewData["Title"] = "Dodaj kontakt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<h4>Kontakt</h4>
+<hr />
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <form asp-action="Dodaj" id="formKontakt" >
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label asp-for="UzytkownikId" class="control-label">Użytkownik</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <div class="form-group">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <select asp-for="UzytkownikId" class="form-control" id="uzytkownicyID">
+                                        <option selected value="0">Brak</option>
+                                        @foreach (var uzytkownik in Model.uzytkownicy)
+                                        {
+                                            <option value="@uzytkownik.Id">@uzytkownik.Imie @uzytkownik.Nazwisko</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label asp-for="AdresId" class="control-label">Adres</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="form-group">
+
+                                    <select asp-for="AdresId" class="form-control" id="adresyID">
+                                        <option selected value="0">Brak</option>
+                                        @foreach (var adres in Model.adresy)
+                                        {
+                                            <option value="@adres.Id">@adres.Miejscowosc @adres.KodPocztowy ul.@adres.Ulica @adres.NumerDomu/@adres.NumerMieszkania </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Telefon" class="control-label"></label>
+                                <input asp-for="Telefon" class="form-control" id="Telefon" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" id="Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Opis" class="control-label">Treść</label>
+                                @Html.TextAreaFor(model => model.Opis)
+                                <span asp-validation-for="Opis" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="PozycjaWyswietlania" class="control-label">Priorytet</label>
+                                <input asp-for="PozycjaWyswietlania" class="form-control" min="1" id="Pozycja" />
+                                <span asp-validation-for="PozycjaWyswietlania" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Aktywny" checked/> @Html.DisplayNameFor(model => model.Aktywny)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    tinymce.init({
+                    selector: 'textarea',
+                    menubar:false,
+                    statusbar: false,
+                    language: 'pl'
+                  });
+</script>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/bootstrap/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        $('#uzytkownicyID').select2();
+        $('#adresyID').select2();
+        //$('#rolaID').select2();
+        //$('#poradniaID').select2();
+    });
+</script>
+
+@*<script>
+    $("#AddAdres").click(function () {
+        var inputTelefon = $("#Telefon").val();
+        var inputEmail = $("#Email").val();
+        var inputOpis = $("#Opis").val();
+        var inputAktywny = $("#Aktywny").val();
+        var inputPozycja = $("#Pozycja").val();
+        $("#HiddenAdresTelefon").val(inputTelefon);
+        $("#HiddenAdresEmail").val(inputEmail);
+        $("#HiddenAdresOpis").val(inputOpis);
+        $("#HiddenAdresAktywny").val(inputAktywny);
+        $("#HiddenAdresPozycjaWyswietlania").val(inputPozycja);
+    });
+</script>
+
+<script>
+    $("#AddUzytkownik").click(function () {
+        var inputTelefon = $("#Telefon").val();
+        var inputEmail = $("#Email").val();
+        var inputOpis = $("#Opis").val();
+        var inputAktywny = $("#Aktywny").val();
+        var inputPozycja = $("#Pozycja").val();
+        $("#HiddenUzytkownikTelefon").val(inputTelefon);
+        $("#HiddenUzytkownikEmail").val(inputEmail);
+        $("#HiddenUzytkownikOpis").val(inputOpis);
+        $("#HiddenUzytkownikAktywny").val(inputAktywny);
+        $("#HiddenUzytkownikPozycjaWyswietlania").val(inputPozycja);
+    });
+</script>*@

@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Html
+@model Przychodnia.Intranet.Models.Schedule.ScheduleYearMonthsList
+
+@{
+    ViewData["Title"] = "Harmonogram - " + Model.UserFullName + " - " + Model.Year;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    public static HtmlString GetMonthName(int monthNumber)
+    {
+        switch (monthNumber)
+        {
+            case 1:
+                return new HtmlString("Styczeń");
+            case 2:
+                return new HtmlString("Luty");
+            case 3:
+                return new HtmlString("Marzec");
+            case 4:
+                return new HtmlString("Kwiecień");
+            case 5:
+                return new HtmlString("Maj");
+            case 6:
+                return new HtmlString("Czerwiec");
+            case 7:
+                return new HtmlString("Lipiec");
+            case 8:
+                return new HtmlString("Sierpień");
+            case 9:
+                return new HtmlString("Wrzesień");
+            case 10:
+                return new HtmlString("Październik");
+            case 11:
+                return new HtmlString("Listopad");
+            case 12:
+                return new HtmlString("Grudzień");
+        }
+        return null;
+    }
+}
+
+<div class="container-fluid mb-4">
+    <h1 class="mb-4">
+        Harmonogram 
+        @Html.ActionLink(
+            Model.UserTitle + " " + Model.UserFullName,
+            "Details",
+            "Pracownicy",
+            routeValues: new {
+                id = Model.UserId,
+            },
+            null
+        )
+        - @Model.Year
+    </h1>
+
+    <div class="card">
+        <div class="card-header d-flex align-items-center">
+            Harmonogram - @Model.Year
+            <a href="@Url.Action("YearMonthsList", new { userId = Model.UserId, year = Model.Year-1 })" class="btn btn-secondary ml-auto">&#5176;&nbsp;@(Model.Year-1)</a>
+            <a href="@Url.Action("YearMonthsList", new { userId = Model.UserId, year = Model.Year+1 })" class="btn btn-secondary ml-2">@(Model.Year+1)&nbsp;&#5171;</a>
+        </div>
+        <table class="table mb-0">
+        <thead>
+            <tr>
+                <th class="border-top-0" style="width: 5rem;">Miesiąc</th>
+                <th class="border-top-0"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 1; i <= 12; i++)
+            {
+                <tr>
+                    <th scope="row">@GetMonthName(i)</th>
+                    <td>
+                        @Html.ActionLink(
+                            "Przejdź do edycji",
+                            "EditMonthHours",
+                            routeValues: new {
+                                userId = Model.UserId,
+                                year = Model.Year,
+                                month = @i
+                            },
+                            null
+                        )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+</div>

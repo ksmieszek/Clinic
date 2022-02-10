@@ -1,0 +1,409 @@
+﻿@using Microsoft.AspNetCore.Html
+@model Przychodnia.Intranet.Models.Schedule.EditScheduleMonthHours
+
+@{
+    ViewData["Title"] = "Edycja harmonogramu - " + Model.UserFullName + " - " + Model.Month + "/" + Model.Year;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int DayisInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
+}
+
+@functions {
+    public static HtmlString GetMonthName(int monthNumber)
+    {
+        switch (monthNumber)
+        {
+            case 1:
+                return new HtmlString("Styczeń");
+            case 2:
+                return new HtmlString("Luty");
+            case 3:
+                return new HtmlString("Marzec");
+            case 4:
+                return new HtmlString("Kwiecień");
+            case 5:
+                return new HtmlString("Maj");
+            case 6:
+                return new HtmlString("Czerwiec");
+            case 7:
+                return new HtmlString("Lipiec");
+            case 8:
+                return new HtmlString("Sierpień");
+            case 9:
+                return new HtmlString("Wrzesień");
+            case 10:
+                return new HtmlString("Październik");
+            case 11:
+                return new HtmlString("Listopad");
+            case 12:
+                return new HtmlString("Grudzień");
+        }
+        return null;
+    }
+
+    public static HtmlString GetDayName(int weekDayNumber)
+    {
+        switch (weekDayNumber)
+        {
+            case 0:
+                return new HtmlString("Niedziela");
+            case 1:
+                return new HtmlString("Poniedziałek");
+            case 2:
+                return new HtmlString("Wtorek");
+            case 3:
+                return new HtmlString("Środa");
+            case 4:
+                return new HtmlString("Czwartek");
+            case 5:
+                return new HtmlString("Piątek");
+            case 6:
+                return new HtmlString("Sobota");
+        }
+        return null;
+    }
+}
+
+<div class="container-fluid mb-4">
+    <h1 class="mb-4">
+        Harmonogram
+        @Html.ActionLink(
+            Model.UserTitle + " " + Model.UserFullName,
+            "Details",
+            "Pracownicy",
+            routeValues: new {
+                id = Model.UserId,
+            },
+            null
+        )
+        - @(GetMonthName(@Model.Month))&nbsp;@Model.Year
+    </h1>
+
+
+    <form
+        asp-action="PerformEdit"
+        asp-route-userId="@Model.UserId"
+        asp-route-year="@Model.Year"
+        asp-route-month="@Model.Month"
+        autocomplete="off"
+    >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <style>
+            .multi-time-control {
+                border: 1px solid rgba(101, 101, 101, 0.1);
+                padding: 0.25rem;
+                display: flex;
+                flex-wrap: wrap;
+                background: rgba(248, 248, 248, 0.7);
+                border-radius: 0.25rem;
+            }
+
+            .multi-time-control__badges-container {
+                display: contents;
+            }
+
+            .multi-time-control__badge {
+                display: inline-block;
+                border: 1px solid rgb(139 139 139 / 36%);
+                padding: 0.25rem;
+                margin: 0.25rem;
+                background: rgb(255 255 255 / 58%);
+                border-radius: 2rem;
+                padding: 0.25rem 0.75rem;
+            }
+            .multi-time-control__badge:hover {
+                background: #e5e5e5;
+                cursor: pointer;
+            }
+
+            .multi-time-control__input {
+                padding: 0.25rem;
+                border: 1px solid #eee;
+                min-width: 7.5rem;
+                border-radius: 0.25rem;
+            }
+            /* mass actions */
+            .mass-action__input {
+                width: 8rem;
+            }
+            .mass-action__input-interval {
+                width: 4.5rem;
+            }
+            .mass-action__checkbox {
+                margin-right: 0.5rem;
+                margin-left: -0.25rem;
+            }
+
+            /* table */
+            .row--weekend {
+                /*background: linear-gradient(90deg, rgb(255 247 0 / 50%) 0%, rgb(255 247 0 / 5%) 11rem);*/
+                box-shadow: inset 5px 0 0 #ffa700;
+            }
+            .row--selected {
+                background: linear-gradient(90deg, #D6F0FF 0%, rgb(177 226 255 / 5%) 5rem) !important;
+            }
+            .row__checkbox {
+                margin-right: 0.25rem;
+            }
+            tbody tr th {
+                width: 12rem;
+                white-space: nowrap;
+                padding-left: 1rem !important;
+                padding-top: 1.5rem !important;
+            }
+            tbody tr {
+                color: #424242;
+            }
+        </style>
+
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            Harmonogram - @(GetMonthName(@Model.Month)) @Model.Year
+            <input class="btn btn-primary btn-lg ml-auto mt-n1 mb-n1 mr-n2" type="submit" value="Zapisz" />
+          </div>
+          <div class="card-header d-flex align-items-center">
+            <input type="checkbox" value="" class="mass-action__checkbox" id="mass-action-select-all-checkbox" />
+            Dodaj wiele:&nbsp;&nbsp;&nbsp;
+            Od: <input type="time" class="mass-action__input form-control form-control-sm ml-1 mr-2" id="massAactionFrom"/>
+            do: <input type="time" class="mass-action__input form-control form-control-sm ml-1 mr-2" id="massAactionTo"/>
+            co: <input type="number" class="mass-action__input mass-action__input-interval form-control form-control-sm ml-1 mr-1" id="massAactionInterval"/> minut
+            <input type="button" class="btn btn-outline-secondary btn-sm ml-2" id="massAactionBtnAdd" value="Dodaj" />
+          </div>
+          <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th class="border-top-0" style="width: 12rem;">Dzień</th>
+                    <th class="border-top-0">Godziny</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @{
+                        var values = Model.Times.Select(t=> t.DatoGodzina.ToString("o")).ToList();
+                    }
+                <script>
+                    const values = JSON.parse('@Html.Raw(Json.Serialize(@values))').map(d => new Date(d+"Z")).sort();
+                    const year = @Model.Year;
+                    const month = @Model.Month;
+                    const dayisInMonth = @DayisInMonth;
+                    console.log('values', JSON.stringify(values, null, 2));
+                </script>
+
+                <div data-values>
+                    @*<input type="hidden" name="Days[@i][Date]" value="08:15" />*@
+                </div>
+                @for (var i = 0; i < DayisInMonth; i++)
+                {
+                    var dayOfWeek = (int) new DateTime(Model.Year, Model.Month, i+1).DayOfWeek;
+                    <tr class="@(dayOfWeek == 0 || dayOfWeek == 6 ? "row--weekend" : "")">
+                        <th scope="row">
+                           @(i+1)&nbsp;&nbsp;@(GetDayName(dayOfWeek))
+                        </th>
+                        <td>
+                            <div class="multi-time-control">
+                                <div data-badges class="multi-time-control__badges-container"></div>
+                                <input class="multi-time-control__input" type="time" data-timemask />
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+            <script>
+                // utils
+                const withZeroPadding = (value) => {
+                    if(value < 10) {
+                        return '0' + value;
+                    }
+                    return `${value}`;
+                }
+                // end:utils
+
+                const dataValuesContainer = document.querySelector('[data-values]');
+
+                const removeValue = (value) => {
+                    const indexOfValue = values.indexOf(value);
+                    values.splice(indexOfValue, 1);
+                }
+
+                const regenerateValues = () => {
+                    dataValuesContainer.innerHTML = '';
+                    values.forEach((v, i) => {
+                        const newInput = document.createElement('input');
+                        newInput.setAttribute('type', 'hidden');
+                        newInput.setAttribute('value', v.toISOString());
+                        newInput.setAttribute('name', 'Times['+i+']');
+                        dataValuesContainer.appendChild(newInput);
+                    });
+                };
+
+                const regenerateBadges = () => {
+                    document.querySelectorAll('.multi-time-control').forEach((container, i) => {
+                        const badgesContainer = container.querySelector("[data-badges]");
+                        badgesContainer.innerHTML = '';
+                        const valuesForContainer = values.filter(v => v.getDate() === i+1);
+                        console.log('valuesForContainer',valuesForContainer);
+                        valuesForContainer.forEach(v => {
+                            const newBadge = document.createElement('div');
+                            newBadge.setAttribute('class', 'multi-time-control__badge');
+                            newBadge.innerHTML = v.getUTCHours() + ":" + withZeroPadding(v.getUTCMinutes());
+                            newBadge.addEventListener('click', (e) => {
+                                removeValue(v);
+                                newBadge.remove();
+                                regenerateValues();
+                                
+                                console.log('values', values);
+                            });
+                            badgesContainer.appendChild(newBadge);
+                        });
+                    });
+                };
+
+                const setupInputs = () => {
+                    document.querySelectorAll('.multi-time-control').forEach((container, i) => {
+                        const input = container.querySelector(".multi-time-control__input");
+
+                        input.addEventListener('keydown', (e) => {
+                            if(event.keyCode === 13 && e.target.value) {
+                                e.preventDefault();
+
+                                const newDateTime = new Date(`${year}-${withZeroPadding(month)}-${withZeroPadding(i+1)}T${e.target.value}:00Z`);
+                                values.push(newDateTime);
+                                values.sort();
+                                e.target.value = '';
+                            
+                                regenerateValues();
+                                regenerateBadges();
+                            }
+                        });
+                    });
+                };
+
+                //const setupInputTimeMasks = () => {
+                //    document.querySelectorAll('[data-timemask]').forEach(elm => {
+
+                //        elm.addEventListener('keypress', (e) => {
+                //            const isNewValueValid = /^([0-9]|[1][0-9]|[2][0-3])?:?([0-9]|[1-5][0-9])?$/.test(e.target.value);
+                //            //debugger;
+                //            if (!isNewValueValid) {
+                //                e.preventDefault();
+                //            }
+                //        });
+                //    });
+                //};
+
+                const tableRows = [];
+                const tableCheckBoxes = [];
+                const checkAllCheckBox = document.querySelector('#mass-action-select-all-checkbox');
+
+                const getSelectedCheckBoxes = () => tableCheckBoxes.filter(elm => elm.checked);
+
+                const updateCheckAllCheckBox = () => {
+                    const selectedCheckboxesCount = getSelectedCheckBoxes().length;
+                    if (selectedCheckboxesCount === dayisInMonth) {
+                        checkAllCheckBox.indeterminate = false;
+                        checkAllCheckBox.checked = true;
+                    } else if (selectedCheckboxesCount > 0) {
+                        checkAllCheckBox.indeterminate = true;
+                        checkAllCheckBox.checked = false;
+                    } else {
+                        checkAllCheckBox.indeterminate = false;
+                        checkAllCheckBox.checked = false;
+                    }
+                };
+
+                const selectAllRows = () => {
+                    tableCheckBoxes.forEach(elm => {
+                        elm.checked = true;
+                        elm.parentElement.parentElement.classList.add('row--selected')
+                    });
+                };
+
+                const unselectAllRows = () => {
+                    tableCheckBoxes.forEach(elm => {
+                        elm.checked = false;
+                        elm.parentElement.parentElement.classList.remove('row--selected')
+                    });
+                };
+
+
+                const setupMassActions = () => {
+                    document.querySelectorAll('table tbody tr').forEach((elm, index) => {
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.value= '';
+                        checkbox.value = index;
+                        checkbox.classList.add('row__checkbox');
+
+                        const thElm = elm.querySelector('th');
+
+                        thElm.addEventListener('click', (e) => {
+                            checkbox.checked = !checkbox.checked;
+                            if (checkbox.checked) {
+                                elm.classList.add('row--selected');
+                            } else {
+                                elm.classList.remove('row--selected');
+                            }
+                            updateCheckAllCheckBox();
+                        });
+
+                        checkbox.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (e.target.checked) {
+                                elm.classList.add('row--selected');
+                            } else {
+                                elm.classList.remove('row--selected');
+                            }
+                            updateCheckAllCheckBox();
+                        });
+
+                        thElm.prepend(checkbox);
+
+                        tableRows.push(elm);
+                        tableCheckBoxes.push(checkbox);
+                    });
+
+                    // MassActions Form
+                    document.querySelector('#massAactionBtnAdd').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const from = new Date(`2020-01-01T`+document.querySelector('#massAactionFrom').value+"Z");
+                        const to = new Date(`2020-01-01T`+document.querySelector('#massAactionTo').value+"Z");
+                        const intervalMinutes = +document.querySelector('#massAactionInterval').value;
+
+                        while(from.getTime() <= to.getTime()) {
+                            // kolejna pętla - dla każdego zaznaczonego elementu dodaje do dateTimesToAdd obliczone datogodziny
+                            tableCheckBoxes.filter(elm => elm.checked).forEach(elm => {
+                                const newDate = new Date(`${year}-${withZeroPadding(month)}-${withZeroPadding((+elm.value)+1)}T${withZeroPadding(from.getHours())}:${withZeroPadding(from.getMinutes())}:00`);
+                                const dateTimeAlreadyExists = values.findIndex(v => v.getDate() === newDate.getDate() && v.getMonth() === newDate.getMonth() && v.getHours() === newDate.getHours() && v.getMinutes() === newDate.getMinutes()) !== -1;
+                                if (!dateTimeAlreadyExists) {
+                                    values.push(newDate);
+                                }
+                            });
+
+                            from.setTime(from.getTime() + (intervalMinutes*60*1000));
+                        }
+
+                        regenerateBadges();
+                        regenerateValues();
+                    });
+
+                    // MassActions SelectAllCheckbox
+                    checkAllCheckBox.addEventListener('change', (e) => {
+                        if (e.target.checked) {
+                            selectAllRows();
+                        } else {
+                            unselectAllRows();
+                        }
+                    });
+                };
+
+                regenerateValues();
+                regenerateBadges();
+                setupInputs();
+                // setupInputTimeMasks();
+                setupMassActions();
+            </script>
+        </table>
+        </div>
+    </form>
+</div>

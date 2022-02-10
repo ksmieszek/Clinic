@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.StronaOnas>
+
+@{  ViewData["Title"] = "O nas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+<section class="home-slider owl-carousel">
+    <div class="slider-item bread-item" style="background-image: url('lib/layout/images/przychodnia3.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-services">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-5">
+            <div class="row">
+                @* Onas *@
+                @await Html.PartialAsync("Onas", (IEnumerable<Przychodnia.Data.Entities.StronaOnas>)ViewBag.ModelOnas)
+            </div>
+        </div>
+    </div>
+    
+</section>

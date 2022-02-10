@@ -1,0 +1,36 @@
+﻿@model Przychodnia.Data.Entities.Kontakt
+
+@{
+    ViewData["Title"] = "Szczegoly";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Informacje o kontakcie</h2>
+            <hr class="underline" />
+        </div>
+        <div class="card">
+            <h5 class="card-header">Informacje</h5>
+            <div class="card-body">
+                <h5 class="card-title">@if (@Model.Uzytkownik != null) {@Model.Uzytkownik.Imie} @if (@Model.Uzytkownik != null) {@Model.Uzytkownik.Nazwisko}</h5>
+                <hr />
+                <p class="card-text">
+                    @Html.DisplayNameFor(model => model.Adres):
+                    @Html.DisplayFor(model => model.Adres.Miejscowosc)
+                    @Html.DisplayFor(model => model.Adres.KodPocztowy)
+                    @Html.DisplayFor(model => model.Adres.Ulica)
+                    @Html.DisplayFor(model => model.Adres.NumerDomu)
+                </p>
+                <p class="card-text">Adres e-mail:@if (@Model.Uzytkownik != null) {@Model.Uzytkownik.Email}</p>
+                <p class="card-text">Nr. telefonu:@if (@Model.Telefon != null) {@Model.Telefon}</p>
+                <p class="card-text">Opis: @if (@Model.Opis != null)
+                    {
+                        @Html.Raw(@Model.Opis)
+                    }
+                </p>
+                <a asp-action="Index" class="btn btn-danger dropright">Powrót</a>
+            </div>
+        </div>
+    </div>
+    </section>

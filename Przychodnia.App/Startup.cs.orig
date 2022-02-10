@@ -1,0 +1,97 @@
+using System.IO;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Przychodnia.Data;
+using Przychodnia.Data.Images;
+
+namespace Przychodnia.App
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews();
+            services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(x => 
+                {
+                    x.LoginPath = "/Uzytkownik/Login";
+                    x.AccessDeniedPath = "/Errors/Error401";
+
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("LekarzOnly",
+                    policy => policy.RequireClaim("Lekarz"));
+
+                options.AddPolicy("PacjentOnly",
+                    policy => policy.RequireClaim("Pacjent"));
+            });
+
+            services.AddHttpContextAccessor();
+            services.AddPrzychodniaContext(Configuration);
+            services.AddScoped<IImagesService, ImagesService>();
+        }
+
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+<<<<<<< HEAD
+            app.UseSession();
+=======
+            var staticFilesPath = Configuration.GetValue<string>("StaticFilesPath");
+>>>>>>> develop
+            app.UseStatusCodePages();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(staticFilesPath, "images")),
+                RequestPath = "/images"
+            });
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Errors/Error404";
+                    await next();
+                }
+            });
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+    }
+}

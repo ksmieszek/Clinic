@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.StronaOnas>
+
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+
+    <div class="StronaOnasMainDiv">
+        @foreach (var aktualnosc in Model)
+        {
+            <table style="margin-bottom: 50px">
+                <tr class="Onas">
+<<<<<<< HEAD
+
+=======
+>>>>>>> develop
+                    <th style="width:350px; margin-right:50px; font-style:oblique">
+                        <h2>@aktualnosc.Tytul</h2>
+                    </th>
+                    <th><p>@aktualnosc.Tresc</p></th>
+                </tr>
+            </table>
+        }
+    </div>

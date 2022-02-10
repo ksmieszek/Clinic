@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Strona>
+
+@{
+    ViewData["Title"] = "Strony";
+
+}
+
+
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"></h1>
+    <a asp-action="Create" title="Dodaj" class="d-sm-inline-block btn btn-primary shadow-sm">
+        Dodaj
+    </a>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 align-items-center justify-content-between ">
+        <h6 class="m-0 font-weight-bold text-primary d-inline-block"> Strony </h6>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered sm-" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LinkTytul)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tytul)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tresc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Pozycja)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CzyWOknie)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CzyIkona)
+                        </th>
+                        <th class="text-center th-action"> Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LinkTytul)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tytul)
+                            </td>
+                           <td class="tdTekst">
+                                @Html.DisplayFor(modelItem => item.Tresc)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pozycja)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CzyWOknie)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CzyIkona)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.IdStrony" class="btn btn-warning btn-circle btn-sm" title="Edytuj"><i class="fas fa-pencil-alt"> </i> </a>
+                                @*<a asp-action="Szczegoly" asp-route-id="@item.Id" class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i> </a>*@
+                              @*  <a asp-action="Delete" asp-route-id="@item.IdStrony" class="btn btn-danger btn-circle btn-sm" title="Usuń"><i class="fas fa-trash"></i></a>*@
+                            <a class="btn btn-danger btn-circle btn-sm deleteScript" 
+                            data-id="@item.IdStrony"
+                            data-controller="Strona"
+                            data-action="DeletePP"
+                            data-body-message="Czy chcesz usunąć">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                          
+                          </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12 col-md-12 ">
+            <div class="dataTables_paginate paging_simple_numbers block" id="dataTable_paginate">
+                <ul class="pagination float-lg-right py-3">
+                    <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Wstecz</a></li>
+                    <li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+                    <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+                    <li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Następna</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/bootstrap/js/bootstrap.js"></script>
+<script src="~/js/deleteScript.js"></script>

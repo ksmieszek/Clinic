@@ -1,0 +1,77 @@
+﻿@model Przychodnia.Data.Entities.CennikLekarz
+
+@{
+    ViewData["Title"] = "Dodaj cennik";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<h4 class="page-title">Cennik</h4>
+<hr />
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nazwa" class="control-label"></label>
+                        <input asp-for="Nazwa" class="form-control" />
+                        <span asp-validation-for="Nazwa" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Cena" class="control-label"></label>
+                        <input asp-for="Cena" class="form-control" />
+                        <span asp-validation-for="Cena" class="text-danger"></span>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Lekarz" class="control-label">Lekarz</label>
+                            <select asp-for="Lekarz" class="form-control" id="ZabiegiID">
+                                @foreach (var lekarz in ViewBag.Lekarze)
+                                {
+                                    <option value="@lekarz.Id">@lekarz.Imie @lekarz.Nazwisko</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Aktywny" checked/> @Html.DisplayNameFor(model => model.Aktywny)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/bootstrap/js/bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        $('#ZabiegiID').select2();
+    });
+</script>

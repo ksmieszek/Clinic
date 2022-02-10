@@ -1,0 +1,156 @@
+﻿@using Przychodnia.Intranet.Models.Pagination
+@model IEnumerable<Przychodnia.Data.Entities.Poradnia>
+
+@{
+    ViewData["Title"] = "Poradnie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    
+}
+<style>
+.fa, .fas {
+    pointer-events: none;
+}
+</style>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"></h1>
+        <a asp-action="Create" title="Dodaj" class="d-sm-inline-block btn btn-primary shadow-sm">
+            Dodaj
+        </a>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 align-items-center justify-content-between ">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block"> Poradnie </h6> 
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered sm-" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>                            
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nazwa)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Opis)
+                            </th>                           
+                            
+                            <th class="text-center th-active"> @Html.DisplayNameFor(model => model.Aktywna) </th>
+                            
+                            <th class="text-center th-action"> Akcja</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>                                
+                                <td class="align-baseline widthName">
+                                    @Html.DisplayFor(modelItem => item.Nazwa)
+                                </td>
+                                <td class="align-baseline tdTekst">                                    
+                                    @Html.Raw(item.Opis)
+                                </td>                                
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Aktywna)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-circle btn-sm" title="Edytuj"><i class="fas fa-pencil-alt"> </i> </a>
+                                    @*<a asp-action="Szczegoly" asp-route-id="@item.Id" class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i> </a>*@
+                                   <a data-dt="@item.Id" data-controller="Poradnia" data-action="Dezaktywuj" data-body-message="Czy jesteś pewien?" 
+                                    class="btn btn-danger btn-circle btn-sm delete" title="Dezaktywuj"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-12 ">
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination justify-content-end">
+                        @for (var strona = pager.StartPage; strona <= pager.EndPage; strona++)
+                        {
+                            <li class="page-item @(strona == pager.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-controller="Poradnia" asp-action="Index" asp-route-pg="@strona">@strona</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+
+    </div>
+    </div>
+
+    @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="~/bootstrap/js/bootstrap.js"></script>
+
+    <script>
+        $((function () {
+            var url;
+            var redirectUrl;
+            var target;
+
+            $('body').append(`
+                        <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel">Uwaga!</h4>
+                                    </div>
+                                <div class="modal-body delete-modal-body">
+                                    Czy jesteś pewien?
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="cancel-delete">Anuluj</button>
+                                        <button type="button" class="btn btn-danger" id="confirm-delete">Dezaktywuj</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`);
+
+            //Delete Action
+            $(".delete").on('click', (e) => {
+                e.preventDefault();
+
+                target = e.target;
+                var Id = $(target).data('dt');
+                var controller = $(target).data('controller');
+                var action = $(target).data('action');
+                var bodyMessage = $(target).data('body-message');
+                redirectUrl = $(target).data('redirect-url');
+
+                url = "/" + controller + "/" + action + "?Id=" + Id;
+                $(".delete-modal-body").text(bodyMessage);
+                $("#deleteModal").modal('show');
+            });
+
+            $("#confirm-delete").on('click', () => {
+                $.get(url)
+                    .done((result) => {
+                        if (!redirectUrl) {
+                            return $(target).parent().parent();
+                        }
+                        window.location.href = redirectUrl;                        
+                    })
+                    .fail((error) => {
+                        if (redirectUrl)
+                            window.location.href = redirectUrl;
+                    }).always(() => {                        
+                        $("#deleteModal").modal('hide');
+                        window.location.reload();
+                    });
+            });
+        }()));
+    </script>

@@ -1,0 +1,75 @@
+@model IEnumerable<Przychodnia.Data.Entities.Aktualnosc>
+
+
+@{
+    ViewData["Title"] = "Aktualnosci";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="home-slider owl-carousel">
+    <div class="slider-item bread-item" style="background-image: url('lib/layout/images/aktualnosci.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        @*<div class="container" data-scrollax-parent="true">
+            <div class="row slider-text align-items-end">
+                <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+                    <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Aktualnosci</h1>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Aktualnosci</h2>
+            <hr class="underline" />
+        </div>
+        <div class="mt-5 d-flex flex-row flex-wrap">
+            @foreach (var aktualnosc in Model)
+            {
+                <div class="row mt-3">
+                    <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="max-width: 568px">
+                        <img class="card-img-top img-responsive rounded" src="@aktualnosc.FotoUrl" alt="Card image cap" height="400">
+                        <div class="card-body">
+                            <h5 class="card-title" style="min-height: 30px; max-height: 30px">@aktualnosc.Tytul</h5>
+                            <div class="card-text card-text-mh" style="min-height: 100px; max-height: 100px">@Html.Raw(@aktualnosc.Tresc)</div>
+                            <div class="d-flex justify-content-between">
+                                <p class="card-text">
+                                    <small class="text-muted">@aktualnosc.DataDodania.ToString(string.Format("dd/MM/yyyy hh:mm:ss"))</small>
+                                </p>
+                                <p>
+                                    <a asp-action="Szczegoly" asp-route-id="@aktualnosc.Id" class="btn btn-danger">
+                                        Czytaj dalej
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <nav aria-label="Page navigation" class="ml-3">
+            <ul class="pagination">
+                @{
+                    double totalPages = ViewBag.TotalPages;
+                    string classes = "page-item";
+                    for (var i = 1; i <= totalPages; i++)
+                    {
+                        @if (i == ViewBag.PageNumber)
+                        {
+                            <li class="active @classes">
+                                @Html.ActionLink(i.ToString(), "Index", new { PageNumber = i }, new { @class = "page-link" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@classes">
+                                @Html.ActionLink(i.ToString(), "Index", new { PageNumber = i }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </nav>
+
+    </div>
+    </section>

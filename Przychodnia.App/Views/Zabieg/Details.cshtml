@@ -1,0 +1,39 @@
+﻿@model Przychodnia.Data.Entities.Zabieg
+
+@{
+    ViewData["Title"] = "Szczegoly zabiegu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Informacje o zabiegu</h2>
+            <hr class="underline" />
+        </div>
+        <div class="row d-md-flex">
+            <div class="col-md-6" style="margin-bottom: 5px;">
+                <div class="card">
+                    <h5 class="card-header">Informacje</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayNameFor(model => model.Nazwa): @Html.DisplayFor(model => model.Nazwa)</h5>
+                        <hr />
+                        <p class="card-text">
+                            @Html.DisplayNameFor(model => model.Opis):
+                            @Html.Raw(Model.Opis)
+                        </p>
+                        </p>
+                        <p class="card-text">@Html.DisplayNameFor(model => model.Przeciwwskazania): @Html.Raw(Model.Przeciwwskazania)</p>
+                        <p class="card-text">@Html.DisplayNameFor(model => model.Przygotowania): @Html.Raw(Model.Przygotowania)</p>
+                        <p class="card-text">@Html.DisplayNameFor(model => model.CzasTrwaniaMinuty):  @Html.DisplayFor(model => model.CzasTrwaniaMinuty) minut</p>
+                        <a asp-action="Index" class="btn btn-danger dropright">Powrót</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <div style="height:100%">
+                    <img class="card-img-top m-auto" src="@Html.DisplayFor(model => model.FotoUrl)" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

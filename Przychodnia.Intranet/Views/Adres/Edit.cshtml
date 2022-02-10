@@ -1,0 +1,75 @@
+﻿@model Przychodnia.Data.Entities.Adres
+
+@{
+    ViewData["Title"] = "Edytuj adres";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <form asp-action="Edit" id="formKontakt">
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Miejscowosc" class="control-label"></label>
+                                <input asp-for="Miejscowosc" class="form-control" />
+                                <span asp-validation-for="Miejscowosc" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="KodPocztowy" class="control-label">Kod pocztowy</label>
+                                <input asp-for="KodPocztowy" class="form-control" />
+                                <span asp-validation-for="KodPocztowy" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Ulica" class="control-label"></label>
+                                <input asp-for="Ulica" class="form-control" />
+                                <span asp-validation-for="Ulica" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="NumerDomu" class="control-label">Numer domu</label>
+                                <input asp-for="NumerDomu" class="form-control" />
+                                <span asp-validation-for="NumerDomu" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="NumerMieszkania" class="control-label">Numer mieszkania</label>
+                                <input asp-for="NumerMieszkania" class="form-control" />
+                                <span asp-validation-for="NumerMieszkania" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="Aktywny"/> @Html.DisplayNameFor(model => model.Aktywny)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

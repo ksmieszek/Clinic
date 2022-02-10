@@ -1,0 +1,53 @@
+﻿@model Przychodnia.App.ViewModel.PrzypomnijHasloViewModel
+
+@{
+    ViewData["Title"] = "Resetuj hasło";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-5 d-none d-lg-block bg-login-image">
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="p-5">
+                                <p id="loginFailedMsg" class="text-danger"></p>
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Resetuj haslo</h1>
+                                </div>
+                                <form asp-action="ResetujHaslo" asp-controller="Uzytkownik" class="user">
+                                    <div class="form-group col-sm-12">
+                                        <input asp-for="Email" class="form-control form-control-user" placeholder="Email" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <input type="submit" value="Resetuj Haslo" class="btn btn-primary btn-user btn-block" />
+                                </form>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
+        @{
+            <script type="text/javascript">
+        var viewBagValue = "@((string)ViewBag.loginFailed)"
+        if (viewBagValue != null && viewBagValue != '') {
+            document.querySelector('#loginFailedMsg').innerHTML = viewBagValue;
+        }
+            </script>
+        }
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

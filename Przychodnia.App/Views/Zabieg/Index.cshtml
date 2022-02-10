@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Zabieg>
+
+@{
+    ViewData["Title"] = "Zabiegi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="home-slider owl-carousel">
+    <div class="slider-item bread-item" style="background-image: url('lib/layout/images/zabiegi.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Zabiegi</h2>
+            <hr class="underline" />
+        </div>
+        <div class="card o-hidden border-0 shadow-lg my-5 col-sm-8 offset-sm-2 col-lg-12 offset-lg-0">
+            <div class="card-body p-5">
+                <div>
+                    <div class="col-lg-12">
+                        <div>
+                            <div class="text-center">
+                                <h6 class="text-secondary">Wyszukaj Zabieg</h6>
+                            </div>
+                            <br />
+                            @using (Html.BeginForm("Index", "Zabieg"))
+                            {
+                                <form method="get" asp-action="Index">
+                                    <div class="input-group mb-3">
+                                        <input type="search" placeholder="Wprowadź słowo kluczowe" name="filterValue" class="form-control" />
+
+                                        <div class="input-group-append">
+                                            <button type="submit" value="Wyszukaj" class="btn btn-outline-secondary">Wyszukaj</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <a asp-action="Index" class="btn btn-outline-secondary">Wyczyść</a>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-5">
+                            @foreach (var item in Model)
+                            {
+                                <div class="row col-md-12">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">
+                                                @Html.DisplayFor(modelItem => item.Nazwa)
+                                            </h5>
+                                        </div>
+                                        <small>  @Html.Raw(item.Opis)</small>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

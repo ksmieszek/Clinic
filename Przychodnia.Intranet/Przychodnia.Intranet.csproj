@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <UserSecretsId>cb3527f8-68be-4b51-9eb9-5eabde9282ae</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="TinyMCE" Version="5.10.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Przychodnia.Data\Przychodnia.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\0369c39e-6f23-4222-8b62-5de0874e123d_Sample-JPG.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\0b2ae646-398c-4a17-8c8f-c3bb9a661212_Screenshot 2021-11-04 221127.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\2448fc83-d946-4470-a9cf-751d150fd8a1_Sample-JPG.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\2db0db9c-4032-4995-93a1-10d59d58afd3_soundcore.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\31af51cc-2048-4d19-8e68-87c80c5261c6_Screenshot 2021-11-04 221127.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\5f70e3cd-11e5-40ab-8045-0a8869354ef3_soundcore.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\60f3b7d9-dc83-4999-8a1b-83fc4301d0ad_Screenshot 2021-11-04 221127.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\7d5b4072-5074-4d85-b04e-3af3a6d36e39_soundcore.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\a7fb1108-5033-4079-a447-9d6588c21ef6_aktualnosci.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\be0c06cf-f9a1-4c16-aa5f-82206dd0a975_soundcore.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\e34f0c26-31d0-4903-95f3-485fda339878_Screenshot 2021-11-04 221127.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\eaad180f-cff4-46ac-a0f4-ffb3f68fbf87_Sample-PNG.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\aktualnosci\f5659c3e-0b98-4a36-a29a-2558f3ce4036_Screenshot 2021-11-04 221127.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\favicon_package_v0.16\safari-pinned-tab.svg" />
+    <None Include="wwwroot\favicon_package_v0.16\site.webmanifest" />
+  </ItemGroup>
+
+</Project>

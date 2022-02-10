@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Uzytkownik>
+
+
+<div class="my-5">
+    <div class="card">
+        <h5 class="card-header">Lista Pacjentów</h5>
+        <div class="card-body">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th class="border-top-0" style="width: 30%;">Imię</th>
+                        <th class="border-top-0" style="width: 30%;">Nazwisko</th>
+                        <th class="border-top-0" style="width: 40%;">E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Imie
+                            </td>
+                            <td>
+                                @item.Nazwisko
+                            </td>
+                            <td>
+                                @item.Email
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

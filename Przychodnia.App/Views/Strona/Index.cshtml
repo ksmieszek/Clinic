@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Strona>
+
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+<section class="ftco-section">
+
+                    @foreach (var strona in Model)
+                    {
+
+                                        <div class="col-md-12 nav-link-wrap mb-5">
+                                            <div class="nav ftco-animate nav-pills">
+                                                <h2 class="Onas">@Html.Raw(@strona.Tytul)</h2>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-flex align-items-center">
+
+                                            <div class="tab-content ftco-animate">
+                                                <div>
+                                                    <div>
+                                                        <p>@Html.Raw(@strona.Tresc)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                    }
+</section>

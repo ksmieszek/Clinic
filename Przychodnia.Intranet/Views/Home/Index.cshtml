@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Lekarze
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.LekarzeIlość</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user-md fa-2x text-gray-300">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Pacjenci
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.PacjenciIlość</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-2x text-gray-300">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Poradnie
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.PoradnieiIlość</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-home fa-2x text-gray-300">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Aktywne wizyty
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.AktywneWizytyIlość</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-heartbeat fa-2x text-gray-300">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <div class="col-12 col-md-12 col-lg-12 col-xl-6">
+        <div class="card shadow mb-3">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary d-inline-block">Nadchodzące wizyty</h6>
+              @*  <a class="btn-sm btn-primary shadow-sm float-right"  asp-area="" asp-controller="Zabieg" asp-action="Index">Wszystkie</a>*@
+            </div>
+            <table class="table table-bordered dashboard" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Dane pacjenta</th>
+                        <th>Lekarz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.NadchodzaceZabiegi)
+                    {
+                        <tr>
+                            
+                            @if (@item.Pacjent != null)
+                            {
+                                <td>
+                                    @item.Pacjent.Imie
+                                    @item.Pacjent.Nazwisko
+                                </td>
+                            }
+                            else { <td>Brak danych</td> }
+                            @if (@item.Harmonogram != null)
+                            {
+                                <td>
+                                    @item.Harmonogram.Lekarz.Imie
+                                    @item.Harmonogram.Lekarz.Nazwisko
+                                </td>
+                            }
+                            else { <td></td> }
+                            <td>@item.Harmonogram.DatoGodzina</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-12 col-xl-6">
+
+        <div class="card shadow mb-4 d-flex">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary  d-inline-block">Nowi pacjenci</h6>
+    @*           <a class="btn-sm btn-primary shadow-sm float-right" asp-area="" asp-controller="Pracownicy" asp-action="Pacjent">Wszyscy</a>*@
+            </div>
+            <table class="table table-bordered dashboard" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Imię i nazwisko</th>
+                        <th>Email</th>
+                        <th>Pesel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.NowiPacjenci)
+                    {
+                    <tr>
+                         <td>@item.Imie @item.Nazwisko</td>
+                         <td>@item.Email</td>
+                         <td>@item.Pesel</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex align-items-stretch">
+    <div class="col-xl-6 col-lg-6 mb-4">
+
+        <div class="card member-panel">
+
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action active">
+                    Lekarze
+                </button>
+
+                @foreach (var item in @ViewBag.Lekarze)
+                {
+                    <button type="button" class="list-group-item list-group-item-action">  <i class="fas fa-user fa-1x text-gray-300 fa-5padding"></i>  <a asp-controller="Pracownicy" asp-action="Details" asp-route-id="@item.Id">@item.Imie @item.Nazwisko</a> </button>
+                }
+            </div>
+            <div class="card-footer text-center bg-white">
+                <a class="text-muted" asp-area="" asp-controller="Pracownicy" asp-action="Index">Zobacz wszystkich</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 mb-4">
+
+        <div class="card member-panel">
+
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action active">
+                    Poradnie
+                </button>
+
+                @foreach (var item in @ViewBag.Poradnie)
+                {
+                    <button type="button" class="list-group-item list-group-item-action">  <i class="fas fa-user fa-1x text-gray-300 fa-5padding"></i>  <a asp-controller="Poradnia" asp-action="Details" asp-route-id="@item.Id">@item.Nazwa</a> </button>
+                }
+            </div>
+            <div class="card-footer text-center bg-white">
+                <a class="text-muted" asp-area="" asp-controller="Poradnia" asp-action="Index">Zobacz wszystkie</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    @*<div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Przyrost pacjentów</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar">
+                    <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <canvas id="myBarChart" width="892" height="480" style="display: block; height: 320px; width: 595px;" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+            <!-- Page level plugins -->
+            <script src="~/js/Chart.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="js/chart-area-demo.js"></script>
+            <script src="js/chart-pie-demo.js"></script>
+            <script src="js/chart-bar-demo.js"></script>

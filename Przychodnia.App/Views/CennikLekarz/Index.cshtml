@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.CennikLekarz>
+@using Przychodnia.App.Models.Pagination
+@{
+    ViewData["Title"] = "Cennik Lekarze";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<section class="home-slider owl-carousel">
+    <div class="slider-item bread-item" style="background-image: url('lib/layout/images/cennik.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+    </div>
+</section>
+<section class="ftco-section">
+    <form>
+        <div class="container">
+            <div class="my-5">
+                <h2 class="title" id="text-title">Cennik lekarzy</h2>
+                <hr class="underline" />
+            </div>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h5 class="text-secondary">Filtruj</h5>
+                                </div>
+                                <br />
+
+                                <div class="input-group-lg">
+                                    <select class="custom-select mr-5" id="specializationID" name="searchSpecialization">
+                                        <option selected value="">Specjalizacja</option>
+                                        @foreach (var specjalizacja in ViewBag.Specjalizacje)
+                                        {
+                                            if (specjalizacja.Nazwa == @ViewBag.SzukanaSpecjalizacja)
+                                            {
+                                                <option value="@specjalizacja.Nazwa" selected>@specjalizacja.Nazwa</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@specjalizacja.Nazwa">@specjalizacja.Nazwa</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="search" placeholder="Nazwisko" value="@ViewBag.SzukaneNazwisko" name="searchLastName" style="margin-right:10px;" id="lastNameID" />
+                                    <input class="form-control" type="search" placeholder="Nazwa cennika" value="@ViewBag.SzukanaNazwa" name="searchName" style="margin-right:10px;" id="nameID" />
+                                    <div class="input-group-append">
+                                        <button type="submit" value="Wyszukaj" class="btn btn-outline-secondary">Wyszukaj</button>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <a asp-action="Refresh" class="btn btn-outline-secondary">Wyczyść</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+
+                                @if (Model.Count() != 0)
+                                {
+                                   
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="row col-md-12 single-item">
+                                            <div class="list-group col-md-2">
+                                                <img class="rounded-circle" style="width:6em" src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                                                     alt="...">
+                                            </div>
+                                            <div class="list-group col-md-10">
+                                                <a asp-controller="Lekarze" asp-action="Szczegoly" asp-route-id="@item.Lekarz.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">
+                                                            @Html.DisplayFor(modelItem => item.Lekarz.TytulNaukowy.Nazwa) @Html.DisplayFor(modelItem => item.Lekarz.Imie) @Html.DisplayFor(modelItem => item.Lekarz.Nazwisko)
+                                                        </h5>
+                                                        <h5 class="mb-1 float-right">
+                                                            @Html.DisplayFor(modelItem => item.Nazwa): @Html.DisplayFor(modelItem => item.Cena) zł
+                                                        </h5>
+                                                    </div>
+                                                    <small>Specjalizacja: @Html.DisplayFor(modelItem => item.Lekarz.Specjalizacje.Nazwa)</small>
+                                                  
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="row col-md-12">
+                                        <div class="col-sm-4 mb-4 mb-sm-0">
+                                        </div>
+                                        <div class="col-sm-4 mb-4 mb-sm-0">
+                                            <h1 class="alert-danger text-white" id="text-title">Brak wyników</h1>
+                                        </div>
+                                        <div class="col-sm-4 mb-4 mb-sm-0">
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 ">
+                @if (pager.TotalPages > 0)
+                {
+                    <ul class="pagination">
+                        @for (var strona = pager.StartPage; strona <= pager.EndPage; strona++)
+                        {
+                            <li class="page-item @(strona == pager.CurrentPage ? "active" : "")">
+                                <input type="submit" value="@strona" name="pg" class="page-link" asp-route-pg="@strona" />
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </form>
+</section>

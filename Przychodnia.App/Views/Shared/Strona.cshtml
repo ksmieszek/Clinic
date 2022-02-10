@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Przychodnia.Data.Entities.Strona>
+
+<link type="text/css" rel="stylesheet" href="~/css/site.css">
+
+@foreach (var item in Model.TakeLast(4))
+{
+    <div>
+        <div>
+            <div class="media-body p-2 mt-3">
+                <h3 style="text-align:center; font-style:oblique">@item.Tytul</h3>
+                <p > @item.Tresc</p>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Cenniki";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 align-items-center justify-content-between ">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block"> Cenniki </h6> 
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+            <table class="table col-4 col-sm-12 col-xl-12">
+                <tbody>
+                        <tr>
+                            <td>
+                                <center><a asp-action="Index" asp-controller="Cennik" class="btn btn-primary btn-lg btn-block">Cennik lekarski</a></center>
+                            </td>
+                            <td>
+                                <center><a asp-action="Index" asp-controller="CennikZabieg" class="btn btn-primary btn-lg btn-block">Cennik zabiegów</a></center>
+                            </td>
+                            <td>
+                                <center><a asp-action="Index" asp-controller="CennikPoradnia" class="btn btn-primary btn-lg btn-block">Cennik poradni</a></center>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>

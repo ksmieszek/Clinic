@@ -1,0 +1,64 @@
+﻿@model Przychodnia.App.ViewModel.MojeWizytyViewModel
+@{
+    ViewData["Title"] = "Moje wizyty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="my-5">
+            <h2 class="title" id="text-title">Moje wizyty</h2>
+            <hr class="underline" />
+        </div>
+        <div class="my-5">
+            <div class="card">
+                <h5 class="card-header">Wizyty</h5>
+                <div class="card-body">
+                    @if (Model.Appointments.Count() > 0)
+                    {
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="border-top-0" style="width: 30%;">Kiedy</th>
+                                    <th class="border-top-0" style="width: 70%;">Lekarz</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var appointment in Model.Appointments)
+                                {
+                                    <tr>
+                                        <td>
+                                            @appointment.Harmonogram.DatoGodzina.ToString("dd/MM/yyyy H:mm")
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                @Html.ActionLink(
+                                                    appointment.Harmonogram.Lekarz.TytulNaukowy.Nazwa + " " + appointment.Harmonogram.Lekarz.Imie + " " + appointment.Harmonogram.Lekarz.Nazwisko,
+                                                    "Szczegoly",
+                                                    "Lekarze",
+                                                    new { userId = @appointment.Harmonogram.Lekarz.Id }
+                                                )
+
+                                                <form asp-action="OdwolajWizyte"
+                                                      asp-route-wizytaId="@appointment.Id"
+                                                      class="d-inline-block ml-auto">
+                                                    <button type="submit" class="btn btn-primary">Odwołaj</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <span>Aktualnie nie masz żadnych umówionych wizyt.</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

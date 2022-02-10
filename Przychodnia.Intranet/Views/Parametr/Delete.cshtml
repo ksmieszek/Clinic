@@ -1,0 +1,60 @@
+﻿@model Przychodnia.Data.Entities.Parametr
+
+@{
+    ViewData["Title"] = "Parametr";
+}
+@*<div>
+    <h4>Parametr</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nazwa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nazwa)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pozycja)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pozycja)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wartosc)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Wartosc)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Opis)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Opis)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-info" role="button">Wróć do listy</a>
+    </form>
+</div>
+*@
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Czy chcesz usunąć?</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                        </button> <span></span>
+                        <a class="btn btn-primary" asp-action="Index"><i class="fas fa-ban"></i> <span></span></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

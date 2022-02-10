@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Specialista>
+
+<section class="ftco-section">
+    <div class="my-5">
+            <div class="media-body p-2 mt-3">
+                <h2 class="mb-3 text-center">Nasi lekarze</h2>
+                <p >
+                    Nasza kadra to wysoko wykwalifikowani lekarze z długoletnim doświadczeniem klinicznym, zdobytym w ciągu lat pracy, w różnych klinikach i szpitalach. Wielu z nas to nauczyciele akademiccy, inni to odpowiedzialni ordynatorzy oddziałów, lub ich zastępcy. Odpowiedzialni i zaangażowani, stale doskonalący swoje umiejętności, uczestniczący w licznych konferencjach naukowych, zjazdach i szkoleniach.
+                    Dla naszych lekarzy, pomoc Pacjentom jest nie tylko pracą, ale powołaniem i pasją.
+                    Jeśli poszukujesz profesjonalnej pomocy lekarskiej, to przychodniaONLINE jest właściwym miejscem dla Ciebie.
+                </p>
+            </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4 my-5">
+        @foreach (var item in Model.Where(specjalista => specjalista.Uzytkownik.Promowany == true))
+        {
+            <div class="col-md-4 ftco-animate">
+                <div class="staff">
+                    @if (item.Uzytkownik.PlecId == 1)
+                    {
+                        <div class="img mb-4" style="background-image: url(lib/layout/images/osoba1.png);"></div>
+                    }
+                    else
+                    {
+                        <div class="img mb-4" style="background-image: url(lib/layout/images/osoba3.png);"></div>
+                    }
+                    <div class="info text-center">
+                        <h3><a asp-action="..\Lekarze\Szczegoly" asp-route-id="@item.Uzytkownik.Id" > @item.TytulNaukowy @item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko </a></h3>
+                        <div class="text">
+                            <p class="text-center">@item.NazwaSpecialnosci</p>
+                            <ul class="ftco-social">
+                                <li class="ftco-animate"><a href="skype:@item.Uzytkownik.Telefon?call"><span class="icon-phone"></span></a></li>
+                                <li class="ftco-animate"><a href="mailto:@item.Uzytkownik.Email"><span class="icon-envelope"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+</section>

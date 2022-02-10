@@ -1,0 +1,94 @@
+﻿@model Przychodnia.Data.Entities.Uzytkownik
+
+@{
+    ViewData["Title"] = "Edytuj lekarza";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="form-group">
+                <a href='javascript:history.go(-1)' class="btn btn-warning">Powrót</a>
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Promowany" /> @Html.DisplayNameFor(model => model.Promowany)
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="PoradnieId" class="control-label">Poradnia</label>
+                        <select asp-for="PoradnieId" asp-items="@ViewBag.Poradnie" class="form-control" required><option></option></select>
+                        <span asp-validation-for="PoradnieId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SpecjalizacjeId" class="control-label">Specjalizacja</label>
+                        <select asp-for="SpecjalizacjeId" asp-items="@ViewBag.Specjalizacje" class="form-control" required><option></option></select>
+                        <span asp-validation-for="SpecjalizacjeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TytulNaukowyId" class="control-label">Tytuł naukowy</label>
+                        <select asp-for="TytulNaukowyId" asp-items="@ViewBag.Tytuly" class="form-control" required><option></option></select>
+                        <span asp-validation-for="TytulNaukowyId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Imie" class="control-label">Imię</label>
+                        <input asp-for="Imie" class="form-control" required />
+                        <span asp-validation-for="Imie" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nazwisko" class="control-label "></label>
+                        <input asp-for="Nazwisko" class="form-control" required />
+                        <span asp-validation-for="Nazwisko" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Pesel" class="control-label"></label>
+                        <input asp-for="Pesel" class="form-control" required />
+                        <span asp-validation-for="Pesel" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Telefon" class="control-label"></label>
+                        <input asp-for="Telefon" class="form-control" required />
+                        <span asp-validation-for="Telefon" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span class="text-danger">@ViewBag.DuplicatedEmailError</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

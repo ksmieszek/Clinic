@@ -1,0 +1,51 @@
+﻿@model Przychodnia.Data.Entities.StronaOnas
+
+@{
+    ViewData["Title"] = "O nas";
+}
+
+@*<h3>Usuń</h3>
+
+    <h3>Jesteś pewień że chcesz usunąć?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Header)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Header)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Tekst)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Tekst)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Usuń" class="buttonDelete" />
+            <a asp-action="Index" class="buttonBack">Wróć</a>
+        </form>
+    </div>*@
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Czy chcesz usunąć?</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                        </button> <span></span>
+                        <a class="btn btn-primary" asp-action="Index"><i class="fas fa-ban"></i> <span></span></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
